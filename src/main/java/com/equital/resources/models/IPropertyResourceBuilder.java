@@ -8,9 +8,7 @@ package com.equital.resources.models;
  *
  * @author jvidal
  */
-public interface IPropertyResource<T, A extends IResourceApi> extends IResource<T, A> {
+public interface IPropertyResourceBuilder<T, R extends IPropertyResource<T, ?>> {
 
-    void onChange(T value);
-
-    <K, V> void changeData(T item, IResourceData data);
+    R run(T inpout);
 }

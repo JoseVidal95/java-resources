@@ -4,16 +4,18 @@
  */
 package com.equital.resources.impl;
 
+import com.equital.constants.IResourceEvents;
 import com.equital.resources.models.IPropertyResource;
-import java.util.Map;
+import com.equital.resources.models.IResourceApi;
+import com.equital.resources.models.IResourceData;
 
 /**
  *
  * @author jvidal
  */
-public class PropertyResource<T, A> extends Resource<T, A> implements IPropertyResource<T, A> {
+public abstract class PropertyResource<T, A extends IResourceApi> extends Resource<T, A> implements IPropertyResource<T, A> {
 
-    public enum PropertyResourceEvents {
+    public enum PropertyResourceEvents implements IResourceEvents {
         CHANGE("change");
 
         private final String value;
@@ -38,13 +40,10 @@ public class PropertyResource<T, A> extends Resource<T, A> implements IPropertyR
     }
 
     @Override
-    public <K, V> void changeData(Map<K, V> data) {
-        // TODO
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    private void emit(PropertyResourceEvents event) {
-        super.emit(event.getValue(), this.value);
+    public <K, V> void changeData(T item, IResourceData data) {
+        this.value = item;
+        this.data().set(data.all());
+        this.emit(PropertyResourceEvents.CHANGE);
     }
 
 }

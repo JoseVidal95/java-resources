@@ -11,7 +11,8 @@ import java.util.Map;
  *
  * @author jvidal
  */
-public interface ICollectionResource<T, R extends IPropertyResource<T, ?>, I, A> extends IPropertyResource<List<T>, A> {
+public interface ICollectionResource<T, R extends IPropertyResource<T, ?>, I, A extends ICollectionResourceApi<T, I, R>>
+        extends IPropertyResource<List<T>, A> {
 
     R get(I id);
 
@@ -24,5 +25,19 @@ public interface ICollectionResource<T, R extends IPropertyResource<T, ?>, I, A>
     List<T> getValues();
 
     Map<I, T> getValuesTable();
+
+    void add(I id, T item);
+
+    void add(Map<I, T> items);
+
+    void add(I id, T item, IResourceData data);
+
+    void add(Map<I, T> items, Map<I, IResourceData> data);
+
+    void remove(I id);
+
+    void remove(List<I> ids);
+
+    void clear();
 
 }

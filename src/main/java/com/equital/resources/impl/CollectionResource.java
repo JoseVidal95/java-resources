@@ -4,7 +4,9 @@
  */
 package com.equital.resources.impl;
 
+import com.equital.constants.IResourceEvents;
 import com.equital.resources.models.ICollectionResource;
+import com.equital.resources.models.ICollectionResourceApi;
 import com.equital.resources.models.IPropertyResource;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -16,14 +18,29 @@ import java.util.Map;
  *
  * @author jvidal
  */
-public abstract class CollectionResource<T, R extends IPropertyResource<T, ?>, I, A> extends PropertyResource<List<T>, A>
+public abstract class CollectionResource<T, R extends IPropertyResource<T, ?>, I, A extends ICollectionResourceApi<T, I, R>>
+        extends PropertyResource<List<T>, A>
         implements ICollectionResource<T, R, I, A> {
 
-    protected Map<I, R> table;
+    public enum CollectionResourceEvents implements IResourceEvents {
+        ADD("add"),
+        REMOVE("remove");
+
+        private final String value;
+
+        private CollectionResourceEvents(String value) {
+            this.value = value;
+        }
+
+        public String getValue() {
+            return this.value;
+        }
+    }
+
+    private final Map<I, R> table;
 
     public CollectionResource() {
         super(new ArrayList());
-
         this.table = new HashMap();
     }
 
@@ -70,6 +87,25 @@ public abstract class CollectionResource<T, R extends IPropertyResource<T, ?>, I
         }
 
         return valuesTable;
+    }
+
+    protected void addItem(I id, R resource) {
+        this.table.put(id, resource);
+        this.emit(CollectionResourceEvents.ADD);
+    }
+
+    protected void clearTable() {
+        this.table.clear();
+    }
+
+    protected boolean removeItem(I id) {
+        boolean removed = this.table.remove(id) == null;
+
+        if (removed) {
+            this.emit(CollectionResourceEvents.REMOVE);
+        }
+
+        return removed;
     }
 
 }

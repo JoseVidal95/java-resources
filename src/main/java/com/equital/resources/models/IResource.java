@@ -1,12 +1,14 @@
 package com.equital.resources.models;
 
+import com.equital.constants.IResourceEvents;
 import com.utils.events.IObserver;
+import com.utils.logs.ILogService;
 
 /**
  *
  * @author jvidal
  */
-public interface IResource<T, A> {
+public interface IResource<T, A extends IResourceApi> {
 
     IResourceData data();
 
@@ -14,7 +16,10 @@ public interface IResource<T, A> {
 
     A getApi();
 
-    void attach(String event, IObserver<T> observer);
+    void setLogService(ILogService service);
 
-    void deattach(String event, IObserver<T> observer);
+    void attach(IResourceEvents event, IObserver<T> observer);
+
+    void deattach(IResourceEvents event, IObserver<T> observer);
+
 }

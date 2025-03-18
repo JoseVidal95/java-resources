@@ -8,13 +8,7 @@ package com.equital.resources.models;
  *
  * @author jvidal
  */
-public interface ITableResourceApi<R extends IPropertyResource, I> {
+public interface IResourceBuilder<T, R extends IResource<T, ?>> {
 
-    <AX> AX createChildApi(I id, R resource);
-
-    void initialize(R resource);
-
-    void dispose(I id, R resource);
-
-    void dispose();
+    R run(T inpout);
 }

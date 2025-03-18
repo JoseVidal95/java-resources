@@ -4,49 +4,38 @@
  */
 package com.equital.resources.impl;
 
-import com.equital.constants.IResourceEvents;
+import com.equital.resources.models.ILoadableCollectionResourceApi;
 import com.equital.resources.models.ILoadableResource;
-import com.equital.resources.models.ILoadableResourceApi;
+import com.equital.resources.models.IPropertyResource;
+import com.equital.resources.models.IPropertyResourceBuilder;
 import java.util.Date;
+import java.util.List;
 
 /**
  *
  * @author jvidal
  */
-public abstract class LoadableResource<T, A extends ILoadableResourceApi> extends Resource<T, A> implements ILoadableResource<T, A> {
-
-    public enum LoadableResourceEvents implements IResourceEvents {
-        LOADING("loading"),
-        LOADED("loaded");
-
-        private final String value;
-
-        private LoadableResourceEvents(String value) {
-            this.value = value;
-        }
-
-        public String getValue() {
-            return this.value;
-        }
-    }
+public abstract class LoadableTableResource<T, I, R extends IPropertyResource<T, ?>, A extends ILoadableCollectionResourceApi<T, I, R>>
+        extends TableResource<T, I, R, A>
+        implements ILoadableResource<List<T>, A> {
 
     private Date loadStart;
     private Date loadEnd;
 
-    public LoadableResource(T value) {
-        super(value);
+    public LoadableTableResource(IPropertyResourceBuilder<T, R> builder) {
+        super(builder);
     }
 
     @Override
     public void onLoading() {
         this.loadStart = new Date();
-        this.emit(LoadableResourceEvents.LOADING);
+        this.emit(LoadableResource.LoadableResourceEvents.LOADING);
     }
 
     @Override
     public void onLoaded() {
         this.loadEnd = new Date();
-        this.emit(LoadableResourceEvents.LOADED);
+        this.emit(LoadableResource.LoadableResourceEvents.LOADED);
     }
 
     @Override
@@ -58,4 +47,5 @@ public abstract class LoadableResource<T, A extends ILoadableResourceApi> extend
     public Date getLoadEnd() {
         return this.loadEnd;
     }
+
 }

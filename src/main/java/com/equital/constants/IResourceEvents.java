@@ -2,15 +2,14 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Interface.java to edit this template
  */
-package com.equital.resources.models;
+package com.equital.constants;
+
+import com.utils.constants.IConstantEnum;
 
 /**
  *
  * @author jvidal
  */
-public interface IPropertyResource<T, A extends IResourceApi> extends IResource<T, A> {
+public interface IResourceEvents extends IConstantEnum {
 
-    void onChange(T value);
-
-    <K, V> void changeData(T item, IResourceData data);
 }

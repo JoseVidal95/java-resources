@@ -4,6 +4,8 @@
  */
 package com.equital.resources.models;
 
+import java.util.Date;
+
 /**
  *
  * @author jvidal
@@ -13,4 +15,8 @@ public interface ILoadableResource<T, A extends ILoadableResourceApi> extends IR
     void onLoading();
 
     void onLoaded();
+
+    Date getLoadStart();
+
+    Date getLoadEnd();
 }

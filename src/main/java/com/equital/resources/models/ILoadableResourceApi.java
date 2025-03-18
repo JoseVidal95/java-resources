@@ -8,7 +8,7 @@ package com.equital.resources.models;
  *
  * @author jvidal
  */
-public interface ILoadableResourceApi {
+public interface ILoadableResourceApi extends IResourceApi {
 
     void load();
 }

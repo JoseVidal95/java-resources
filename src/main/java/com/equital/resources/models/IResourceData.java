@@ -10,11 +10,13 @@ import java.util.Map;
  *
  * @author jvidal
  */
-public interface IResourceData {
+public interface IResourceData<K, V> {
 
-    <K, V> Map<K, V> all();
+    Map<K, V> all();
 
-    <K, V> void set(K key, V value);
+    void set(Map<K, V> data);
 
-    <K, V> V get(K key);
+    void set(K key, V value);
+
+    V get(K key);
 }
