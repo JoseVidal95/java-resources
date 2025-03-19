@@ -4,7 +4,7 @@
  */
 package com.equital.resources.impl;
 
-import com.equital.constants.IResourceEvents;
+import com.equital.resources.constants.models.IResourceEvents;
 import com.equital.resources.models.ILoadableResource;
 import com.equital.resources.models.ILoadableResourceApi;
 import java.util.Date;
@@ -14,6 +14,8 @@ import java.util.Date;
  * @author jvidal
  */
 public abstract class LoadableResource<T, A extends ILoadableResourceApi> extends Resource<T, A> implements ILoadableResource<T, A> {
+
+    private static final long serialVersionUID = -7282514489139022215L;
 
     public enum LoadableResourceEvents implements IResourceEvents {
         LOADING("loading"),

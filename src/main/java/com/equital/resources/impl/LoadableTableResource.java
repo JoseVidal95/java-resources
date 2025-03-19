@@ -6,8 +6,7 @@ package com.equital.resources.impl;
 
 import com.equital.resources.models.ILoadableCollectionResourceApi;
 import com.equital.resources.models.ILoadableResource;
-import com.equital.resources.models.IPropertyResource;
-import com.equital.resources.models.IPropertyResourceBuilder;
+import com.equital.resources.models.ITableResource;
 import java.util.Date;
 import java.util.List;
 
@@ -15,16 +14,14 @@ import java.util.List;
  *
  * @author jvidal
  */
-public abstract class LoadableTableResource<T, I, R extends IPropertyResource<T, ?>, A extends ILoadableCollectionResourceApi<T, I, R>>
-        extends TableResource<T, I, R, A>
-        implements ILoadableResource<List<T>, A> {
+public abstract class LoadableTableResource<T, I, A extends ILoadableCollectionResourceApi<T, I>>
+        extends TableResource<T, I, A>
+        implements ITableResource<T, I, A>, ILoadableResource<List<T>, A> {
+
+    private static final long serialVersionUID = -2619628731880637705L;
 
     private Date loadStart;
     private Date loadEnd;
-
-    public LoadableTableResource(IPropertyResourceBuilder<T, R> builder) {
-        super(builder);
-    }
 
     @Override
     public void onLoading() {

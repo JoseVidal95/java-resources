@@ -4,7 +4,7 @@
  */
 package com.equital.resources.impl;
 
-import com.equital.constants.IResourceEvents;
+import com.equital.resources.constants.models.IResourceEvents;
 import com.equital.resources.models.IPropertyResource;
 import com.equital.resources.models.IResourceApi;
 import com.equital.resources.models.IResourceData;
@@ -14,6 +14,8 @@ import com.equital.resources.models.IResourceData;
  * @author jvidal
  */
 public abstract class PropertyResource<T, A extends IResourceApi> extends Resource<T, A> implements IPropertyResource<T, A> {
+
+    private static final long serialVersionUID = 7325316480150501292L;
 
     public enum PropertyResourceEvents implements IResourceEvents {
         CHANGE("change");
@@ -35,15 +37,14 @@ public abstract class PropertyResource<T, A extends IResourceApi> extends Resour
 
     @Override
     public void onChange(T value) {
-        this.value = value;
+        this.setValue(value);
         this.emit(PropertyResourceEvents.CHANGE);
     }
 
     @Override
     public <K, V> void changeData(T item, IResourceData data) {
-        this.value = item;
         this.data().set(data.all());
-        this.emit(PropertyResourceEvents.CHANGE);
+        this.onChange(item);
     }
 
 }

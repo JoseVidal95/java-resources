@@ -4,15 +4,16 @@
  */
 package com.equital.resources.impl;
 
-import com.equital.constants.IResourceEvents;
+import com.equital.resources.constants.models.IResourceEvents;
+import com.equital.resources.constants.LogContextResource;
 import com.equital.resources.models.IResource;
 import com.equital.resources.models.IResourceApi;
 import com.equital.resources.models.IResourceData;
-import com.utils.constants.ILogContextEnum;
-import com.utils.constants.ILogSeverityEnum;
+import com.utils.logs.models.ILogContextEnum;
+import com.utils.logs.models.ILogSeverityEnum;
 import com.utils.events.EventHost;
-import com.utils.events.IObserver;
-import com.utils.logs.ILogService;
+import com.utils.events.models.IObserver;
+import com.utils.logs.models.ILogService;
 import com.utils.logs.LogService;
 import java.io.Serializable;
 
@@ -24,9 +25,9 @@ public abstract class Resource<T, A extends IResourceApi> extends EventHost<T> i
 
     private static final long serialVersionUID = -824551858507602146L;
 
-    protected T value;
+    private T value;
+    private IResourceData data;
     protected A api;
-    protected IResourceData data;
 
     public Resource(T value) {
         this.value = value;
@@ -55,6 +56,10 @@ public abstract class Resource<T, A extends IResourceApi> extends EventHost<T> i
         return this.value;
     }
 
+    protected void setValue(T value) {
+        this.value = value;
+    }
+
     @Override
     public void attach(IResourceEvents event, IObserver<T> observer) {
         this.suscribe(event.getValue(), observer);
@@ -72,10 +77,11 @@ public abstract class Resource<T, A extends IResourceApi> extends EventHost<T> i
 
     protected void emit(IResourceEvents event) {
         super.emit(event.getValue(), this.value);
+        this.log(event.getValue() + ": " + this.value);
     }
 
-    protected void log(ILogContextEnum context, String message) {
-        this.log(context, message, LogService.LogSeverity.INFO);
+    protected void log(String message) {
+        this.log(LogContextResource.RESOURCE, message, LogService.LogSeverity.INFO);
     }
 
     protected void log(ILogContextEnum context, String message, ILogSeverityEnum severity) {

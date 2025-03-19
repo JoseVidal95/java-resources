@@ -5,6 +5,7 @@
 package com.equital.resources.impl;
 
 import com.equital.resources.models.IResourceData;
+import com.utils.models.IConstantEnum;
 import java.io.Serializable;
 import java.util.Collections;
 import java.util.HashMap;
@@ -14,7 +15,7 @@ import java.util.Map;
  *
  * @author jvidal
  */
-public class ResourceData<K, V> implements IResourceData<K, V>, Serializable {
+public class ResourceData<K extends IConstantEnum, V> implements IResourceData<K, V>, Serializable {
 
     private static final long serialVersionUID = -4974357641153275463L;
 

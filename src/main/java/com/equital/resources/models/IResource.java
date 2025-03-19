@@ -1,8 +1,8 @@
 package com.equital.resources.models;
 
-import com.equital.constants.IResourceEvents;
-import com.utils.events.IObserver;
-import com.utils.logs.ILogService;
+import com.equital.resources.constants.models.IResourceEvents;
+import com.utils.events.models.IObserver;
+import com.utils.logs.models.ILogService;
 
 /**
  *

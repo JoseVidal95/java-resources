@@ -6,9 +6,9 @@ package com.equital.resources.impl;
 
 import com.equital.resources.models.ICollectionResourceApi;
 import com.equital.resources.models.IPropertyResource;
-import com.equital.resources.models.IPropertyResourceBuilder;
 import com.equital.resources.models.IResourceApi;
 import com.equital.resources.models.IResourceData;
+import com.equital.resources.models.ITableResource;
 import java.util.List;
 import java.util.Map;
 
@@ -16,15 +16,19 @@ import java.util.Map;
  *
  * @author jvidal
  */
-public abstract class TableResource<T, I, R extends IPropertyResource<T, ?>, A extends ICollectionResourceApi<T, I, R>>
-        extends CollectionResource<T, R, I, A>
-        implements ICollectionResourceApi {
+public abstract class TableResource<T, I, A extends ICollectionResourceApi<T, I>>
+        extends CollectionResource<T, I, A>
+        implements ITableResource<T, I, A> {
 
-    private final IPropertyResourceBuilder<T, R> builder;
+    private static final long serialVersionUID = -7246341170759116694L;
 
-    public TableResource(IPropertyResourceBuilder<T, R> builder) {
+    public TableResource() {
         super();
-        this.builder = builder;
+    }
+
+    public TableResource(Map<I, T> items) {
+        super();
+        items.forEach((k, v) -> this.addOrUpdate(k, v, null));
     }
 
     @Override
@@ -57,13 +61,8 @@ public abstract class TableResource<T, I, R extends IPropertyResource<T, ?>, A e
         ids.forEach(id -> this.removeItem(id));
     }
 
-    @Override
-    public void clear() {
-        this.clearTable();
-    }
-
     private void addOrUpdate(I id, T item, IResourceData data) {
-        R child = this.get(id);
+        IPropertyResource<T, ?> child = this.get(id);
 
         if (child != null) {
             ((PropertyResource<T, IResourceApi>) child).changeData(item, data);
@@ -75,16 +74,16 @@ public abstract class TableResource<T, I, R extends IPropertyResource<T, ?>, A e
         this.addItem(id, child);
     }
 
-    private R createChild(I id, T item, IResourceData data) {
-        Resource<T, IResourceApi> resource = (Resource<T, IResourceApi>) this.builder.run(item);
-        IResourceApi _api = this.api.createChildApi(id, (R) resource);
+    private IPropertyResource<T, ?> createChild(I id, T item, IResourceData data) {
+        Resource<T, IResourceApi> resource = (Resource<T, IResourceApi>) this.builder(item);
+        IResourceApi _api = this.api.createChildApi(id, (IPropertyResource<T, ?>) resource);
         resource.setApi(_api);
 
         if (data != null) {
             resource.setData(data);
         }
 
-        return (R) resource;
+        return (IPropertyResource<T, ?>) resource;
     }
 
 }

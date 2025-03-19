@@ -4,7 +4,7 @@
  */
 package com.equital.resources.impl;
 
-import com.equital.constants.IResourceEvents;
+import com.equital.resources.constants.models.IResourceEvents;
 import com.equital.resources.models.ICollectionResource;
 import com.equital.resources.models.ICollectionResourceApi;
 import com.equital.resources.models.IPropertyResource;
@@ -18,13 +18,16 @@ import java.util.Map;
  *
  * @author jvidal
  */
-public abstract class CollectionResource<T, R extends IPropertyResource<T, ?>, I, A extends ICollectionResourceApi<T, I, R>>
+public abstract class CollectionResource<T, I, A extends ICollectionResourceApi<T, I>>
         extends PropertyResource<List<T>, A>
-        implements ICollectionResource<T, R, I, A> {
+        implements ICollectionResource<T, I, A> {
+
+    private static final long serialVersionUID = 356535485314928121L;
 
     public enum CollectionResourceEvents implements IResourceEvents {
         ADD("add"),
-        REMOVE("remove");
+        REMOVE("remove"),
+        CLEAR("clear");
 
         private final String value;
 
@@ -37,7 +40,7 @@ public abstract class CollectionResource<T, R extends IPropertyResource<T, ?>, I
         }
     }
 
-    private final Map<I, R> table;
+    private final Map<I, IPropertyResource<T, ?>> table;
 
     public CollectionResource() {
         super(new ArrayList());
@@ -45,7 +48,7 @@ public abstract class CollectionResource<T, R extends IPropertyResource<T, ?>, I
     }
 
     @Override
-    public R get(I id) {
+    public IPropertyResource<T, ?> get(I id) {
         return this.table.get(id);
     }
 
@@ -55,12 +58,12 @@ public abstract class CollectionResource<T, R extends IPropertyResource<T, ?>, I
     }
 
     @Override
-    public List<R> getList() {
+    public List<IPropertyResource<T, ?>> getList() {
         return new ArrayList(this.table.values());
     }
 
     @Override
-    public Map<I, R> getTable() {
+    public Map<I, IPropertyResource<T, ?>> getTable() {
         return Collections.unmodifiableMap(this.table);
     }
 
@@ -68,8 +71,8 @@ public abstract class CollectionResource<T, R extends IPropertyResource<T, ?>, I
     public List<T> getValues() {
         final List<T> values = new ArrayList();
 
-        for (Map.Entry<I, R> entry : this.table.entrySet()) {
-            R resource = entry.getValue();
+        for (Map.Entry<I, IPropertyResource<T, ?>> entry : this.table.entrySet()) {
+            IPropertyResource<T, ?> resource = entry.getValue();
             values.add(resource.getValue());
         }
 
@@ -80,22 +83,24 @@ public abstract class CollectionResource<T, R extends IPropertyResource<T, ?>, I
     public Map<I, T> getValuesTable() {
         final Map<I, T> valuesTable = new HashMap();
 
-        for (Map.Entry<I, R> entry : this.table.entrySet()) {
+        for (Map.Entry<I, IPropertyResource<T, ?>> entry : this.table.entrySet()) {
             I key = entry.getKey();
-            R resource = entry.getValue();
+            IPropertyResource<T, ?> resource = entry.getValue();
             valuesTable.put(key, resource.getValue());
         }
 
         return valuesTable;
     }
 
-    protected void addItem(I id, R resource) {
-        this.table.put(id, resource);
-        this.emit(CollectionResourceEvents.ADD);
+    @Override
+    public void clear() {
+        this.table.clear();
+        this.emit(CollectionResourceEvents.CLEAR);
     }
 
-    protected void clearTable() {
-        this.table.clear();
+    protected void addItem(I id, IPropertyResource<T, ?> resource) {
+        this.table.put(id, resource);
+        this.emit(CollectionResourceEvents.ADD);
     }
 
     protected boolean removeItem(I id) {
