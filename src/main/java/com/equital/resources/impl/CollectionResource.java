@@ -47,6 +47,11 @@ public abstract class CollectionResource<T, I, A extends ICollectionResourceApi<
         this.table = new HashMap();
     }
 
+    public CollectionResource(A api) {
+        super(new ArrayList(), api);
+        this.table = new HashMap();
+    }
+
     @Override
     public IPropertyResource<T, ?> get(I id) {
         return this.table.get(id);
@@ -59,7 +64,7 @@ public abstract class CollectionResource<T, I, A extends ICollectionResourceApi<
 
     @Override
     public List<IPropertyResource<T, ?>> getList() {
-        return new ArrayList(this.table.values());
+        return Collections.unmodifiableList(new ArrayList(this.table.values()));
     }
 
     @Override
@@ -68,7 +73,7 @@ public abstract class CollectionResource<T, I, A extends ICollectionResourceApi<
     }
 
     @Override
-    public List<T> getValues() {
+    public List<T> getValue() {
         final List<T> values = new ArrayList();
 
         for (Map.Entry<I, IPropertyResource<T, ?>> entry : this.table.entrySet()) {
@@ -76,7 +81,7 @@ public abstract class CollectionResource<T, I, A extends ICollectionResourceApi<
             values.add(resource.getValue());
         }
 
-        return values;
+        return Collections.unmodifiableList(values);
     }
 
     @Override
@@ -89,28 +94,31 @@ public abstract class CollectionResource<T, I, A extends ICollectionResourceApi<
             valuesTable.put(key, resource.getValue());
         }
 
-        return valuesTable;
+        return Collections.unmodifiableMap(valuesTable);
     }
 
     @Override
     public void clear() {
         this.table.clear();
+        this.value = new ArrayList();
         this.emit(CollectionResourceEvents.CLEAR);
     }
 
     protected void addItem(I id, IPropertyResource<T, ?> resource) {
         this.table.put(id, resource);
+        this.value.add(resource.getValue());
         this.emit(CollectionResourceEvents.ADD);
     }
 
     protected boolean removeItem(I id) {
-        boolean removed = this.table.remove(id) == null;
+        IPropertyResource<T, ?> removed = this.table.remove(id);
 
-        if (removed) {
+        if (removed != null) {
+            this.value.remove(removed.getValue());
             this.emit(CollectionResourceEvents.REMOVE);
         }
 
-        return removed;
+        return removed != null;
     }
 
 }

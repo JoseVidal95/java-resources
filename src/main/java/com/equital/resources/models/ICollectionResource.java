@@ -24,8 +24,6 @@ public interface ICollectionResource<T, I, A extends ICollectionResourceApi<T, I
 
     Map<I, IPropertyResource<T, ?>> getTable();
 
-    List<T> getValues();
-
     Map<I, T> getValuesTable();
 
     void clear();

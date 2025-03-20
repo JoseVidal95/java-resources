@@ -35,6 +35,18 @@ public abstract class PropertyResource<T, A extends IResourceApi> extends Resour
         super(value);
     }
 
+    public PropertyResource(T value, IResourceData data) {
+        super(value, data);
+    }
+
+    public PropertyResource(T value, A api) {
+        super(value, api);
+    }
+
+    public PropertyResource(T value, A api, IResourceData data) {
+        super(value, api, data);
+    }
+
     @Override
     public void onChange(T value) {
         this.setValue(value);

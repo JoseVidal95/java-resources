@@ -4,18 +4,19 @@
  */
 package com.equital.resources.impl;
 
-import com.equital.resources.constants.models.IResourceEvents;
 import com.equital.resources.constants.LogContextResource;
+import com.equital.resources.constants.models.IResourceEvents;
 import com.equital.resources.models.IResource;
 import com.equital.resources.models.IResourceApi;
 import com.equital.resources.models.IResourceData;
-import com.utils.logs.models.ILogContextEnum;
-import com.utils.logs.models.ILogSeverityEnum;
 import com.utils.events.EventHost;
 import com.utils.events.models.IObserver;
-import com.utils.logs.models.ILogService;
 import com.utils.logs.LogService;
+import com.utils.logs.models.ILogContextEnum;
+import com.utils.logs.models.ILogService;
+import com.utils.logs.models.ILogSeverityEnum;
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  *
@@ -25,12 +26,29 @@ public abstract class Resource<T, A extends IResourceApi> extends EventHost<T> i
 
     private static final long serialVersionUID = -824551858507602146L;
 
-    private T value;
     private IResourceData data;
+    private final Date created;
     protected A api;
+    protected T value;
 
     public Resource(T value) {
         this.value = value;
+        this.created = new Date();
+    }
+
+    public Resource(T value, IResourceData data) {
+        this(value);
+        this.data = data;
+    }
+
+    public Resource(T value, A api) {
+        this(value);
+        this.api = api;
+    }
+
+    public Resource(T value, A api, IResourceData data) {
+        this(value, data);
+        this.api = api;
     }
 
     @Override

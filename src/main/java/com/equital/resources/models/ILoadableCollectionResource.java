@@ -4,10 +4,12 @@
  */
 package com.equital.resources.models;
 
+import java.util.List;
+
 /**
  *
  * @author jvidal
  */
 public interface ILoadableCollectionResource<T, I, A extends ILoadableCollectionResourceApi<T, I>>
-        extends ICollectionResource<T, I, A> {
+        extends ICollectionResource<T, I, A>, ILoadableResource<List<T>, A> {
 }

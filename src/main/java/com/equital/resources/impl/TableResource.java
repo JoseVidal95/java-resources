@@ -31,6 +31,15 @@ public abstract class TableResource<T, I, A extends ICollectionResourceApi<T, I>
         items.forEach((k, v) -> this.addOrUpdate(k, v, null));
     }
 
+    public TableResource(A api) {
+        super(api);
+    }
+
+    public TableResource(Map<I, T> items, A api) {
+        super(api);
+        items.forEach((k, v) -> this.addOrUpdate(k, v, null));
+    }
+
     @Override
     public void add(I id, T item) {
         this.addOrUpdate(id, item, null);
@@ -78,10 +87,7 @@ public abstract class TableResource<T, I, A extends ICollectionResourceApi<T, I>
         Resource<T, IResourceApi> resource = (Resource<T, IResourceApi>) this.builder(item);
         IResourceApi _api = this.api.createChildApi(id, (IPropertyResource<T, ?>) resource);
         resource.setApi(_api);
-
-        if (data != null) {
-            resource.setData(data);
-        }
+        resource.setData(data);
 
         return (IPropertyResource<T, ?>) resource;
     }
