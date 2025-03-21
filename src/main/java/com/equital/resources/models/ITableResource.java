@@ -11,8 +11,10 @@ import java.util.Map;
  *
  * @author jvidal
  */
-public interface ITableResource<T, I, A extends ICollectionResourceApi<T, I>>
-        extends ICollectionResource<T, I, A> {
+public interface ITableResource<T, I, A extends ITableResourceApi<T, I>>
+        extends ICollectionResource<T, A> {
+
+    boolean has(I id);
 
     void add(I id, T item);
 
@@ -20,9 +22,11 @@ public interface ITableResource<T, I, A extends ICollectionResourceApi<T, I>>
 
     void add(I id, T item, IResourceData data);
 
-    void add(Map<I, T> items, Map<I, IResourceData> data);
+    boolean remove(I... ids);
 
-    void remove(I id);
+    IPropertyResource get(I id);
 
-    void remove(List<I> ids);
+    Map<I, IPropertyResource> getTable();
+
+    List<I> getIds();
 }

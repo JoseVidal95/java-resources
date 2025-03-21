@@ -4,30 +4,23 @@
  */
 package com.equital.resources.impl;
 
-import com.equital.resources.models.ILoadableCollectionResource;
 import com.equital.resources.models.ILoadableCollectionResourceApi;
+import com.equital.resources.models.ILoadableResource;
 import java.util.Date;
+import java.util.List;
 
 /**
  *
  * @author jvidal
  */
-public abstract class LoadableTableResource<T, I, A extends ILoadableCollectionResourceApi<T, I>>
-        extends TableResource<T, I, A>
-        implements ILoadableCollectionResource<T, I, A> {
+public abstract class LoadableCollectionResource<T, A extends ILoadableCollectionResourceApi<T>>
+        extends CollectionResource<T, A>
+        implements ILoadableResource<List<T>, A> {
 
-    private static final long serialVersionUID = -2619628731880637705L;
+    private static final long serialVersionUID = -2589013746914584807L;
 
     private Date loadStart;
     private Date loadEnd;
-
-    public LoadableTableResource() {
-        super();
-    }
-
-    public LoadableTableResource(A api) {
-        super(api);
-    }
 
     @Override
     public void onLoading() {
@@ -50,5 +43,4 @@ public abstract class LoadableTableResource<T, I, A extends ILoadableCollectionR
     public Date getLoadEnd() {
         return this.loadEnd;
     }
-
 }

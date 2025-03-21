@@ -10,7 +10,7 @@ import java.util.Date;
  *
  * @author jvidal
  */
-public interface ILoadableResource<T, A extends ILoadableResourceApi> extends IResource<T, A> {
+public interface ILoadableResource<T, A extends ILoadableResourceApi> extends IPropertyResource<T, A> {
 
     void onLoading();
 

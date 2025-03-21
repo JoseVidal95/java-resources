@@ -4,13 +4,14 @@
  */
 package com.equital.resources.models;
 
+import com.utils.models.IConstantEnum;
 import java.util.Map;
 
 /**
  *
  * @author jvidal
  */
-public interface IResourceData<K, V> {
+public interface IResourceData<K extends IConstantEnum, V> {
 
     Map<K, V> all();
 

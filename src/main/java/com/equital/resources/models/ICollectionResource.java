@@ -5,26 +5,21 @@
 package com.equital.resources.models;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  *
  * @author jvidal
  */
-public interface ICollectionResource<T, I, A extends ICollectionResourceApi<T, I>>
+public interface ICollectionResource<T, A extends ICollectionResourceApi<T>>
         extends IPropertyResource<List<T>, A> {
 
-    IPropertyResource<T, ?> builder(T item);
+    IPropertyResource builder(T item, IResourceData data);
 
-    IPropertyResource<T, ?> get(I id);
+    int getCount();
 
-    boolean has(I id);
+    T[] getValues();
 
-    List<IPropertyResource<T, ?>> getList();
-
-    Map<I, IPropertyResource<T, ?>> getTable();
-
-    Map<I, T> getValuesTable();
+    List<IPropertyResource> getList();
 
     void clear();
 

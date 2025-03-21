@@ -22,33 +22,17 @@ import java.util.Date;
  *
  * @author jvidal
  */
-public abstract class Resource<T, A extends IResourceApi> extends EventHost<T> implements IResource<T, A>, Serializable {
+public abstract class Resource< A extends IResourceApi> extends EventHost implements IResource< A>, Serializable {
 
     private static final long serialVersionUID = -824551858507602146L;
 
     private IResourceData data;
     private final Date created;
     protected A api;
-    protected T value;
 
-    public Resource(T value) {
-        this.value = value;
+    public Resource() {
         this.created = new Date();
-    }
-
-    public Resource(T value, IResourceData data) {
-        this(value);
-        this.data = data;
-    }
-
-    public Resource(T value, A api) {
-        this(value);
-        this.api = api;
-    }
-
-    public Resource(T value, A api, IResourceData data) {
-        this(value, data);
-        this.api = api;
+        this.data = new ResourceData();
     }
 
     @Override
@@ -56,46 +40,38 @@ public abstract class Resource<T, A extends IResourceApi> extends EventHost<T> i
         return this.data;
     }
 
-    void setData(IResourceData data) {
-        this.data = data;
-    }
-
     @Override
     public A getApi() {
         return this.api;
     }
 
-    void setApi(A api) {
+    @Override
+    public void setApi(A api) {
         this.api = api;
     }
 
     @Override
-    public T getValue() {
-        return this.value;
-    }
-
-    protected void setValue(T value) {
-        this.value = value;
-    }
-
-    @Override
-    public void attach(IResourceEvents event, IObserver<T> observer) {
+    public void attach(IResourceEvents event, IObserver observer) {
         this.suscribe(event.getValue(), observer);
     }
 
     @Override
-    public void deattach(IResourceEvents event, IObserver<T> observer) {
+    public void deattach(IResourceEvents event, IObserver observer) {
         this.unsuscribe(event.getValue(), observer);
     }
 
-    @Override
-    public void setLogService(ILogService service) {
+    void setLogService(ILogService service) {
         this.logger = service;
     }
 
+    protected <T> void emit(IResourceEvents event, T args) {
+        super.emit(event.getValue(), args);
+        this.log(event.getValue() + ": " + args);
+    }
+
     protected void emit(IResourceEvents event) {
-        super.emit(event.getValue(), this.value);
-        this.log(event.getValue() + ": " + this.value);
+        super.emit(event.getValue());
+        this.log(event.getValue());
     }
 
     protected void log(String message) {

@@ -8,6 +8,6 @@ package com.equital.resources.models;
  *
  * @author jvidal
  */
-public interface ILoadableCollectionResourceApi<T, I>
-        extends ILoadableResourceApi, ICollectionResourceApi<T, I> {
+public interface ILoadableCollectionResourceApi<T>
+        extends ILoadableResourceApi, ICollectionResourceApi<T> {
 }

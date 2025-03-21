@@ -8,13 +8,11 @@ package com.equital.resources.models;
  *
  * @author jvidal
  */
-public interface ICollectionResourceApi<T> extends IResourceApi {
+public interface ITableResourceApi<T, I> extends ICollectionResourceApi<T> {
 
-    IResourceApi createChildApi(IPropertyResource<T, ? extends IResourceApi> resource);
+    IResourceApi createChildApi(I id, IPropertyResource<T, ? extends IResourceApi> resource);
 
     void initialize(IPropertyResource<T, ? extends IResourceApi> resource);
 
-    void disposeChildApi(IPropertyResource<T, ? extends IResourceApi> resource);
-
-    void disposeAll();
+    void disposeChildApi(I id, IPropertyResource<T, ? extends IResourceApi> resource);
 }

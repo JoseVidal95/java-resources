@@ -13,7 +13,7 @@ import com.equital.resources.models.IResourceData;
  *
  * @author jvidal
  */
-public abstract class PropertyResource<T, A extends IResourceApi> extends Resource<T, A> implements IPropertyResource<T, A> {
+public abstract class PropertyResource<T, A extends IResourceApi> extends Resource< A> implements IPropertyResource<T, A> {
 
     private static final long serialVersionUID = 7325316480150501292L;
 
@@ -31,32 +31,31 @@ public abstract class PropertyResource<T, A extends IResourceApi> extends Resour
         }
     }
 
+    protected T value;
+
     public PropertyResource(T value) {
-        super(value);
-    }
-
-    public PropertyResource(T value, IResourceData data) {
-        super(value, data);
-    }
-
-    public PropertyResource(T value, A api) {
-        super(value, api);
-    }
-
-    public PropertyResource(T value, A api, IResourceData data) {
-        super(value, api, data);
+        super();
+        this.value = value;
     }
 
     @Override
     public void onChange(T value) {
         this.setValue(value);
-        this.emit(PropertyResourceEvents.CHANGE);
+        this.emit(PropertyResourceEvents.CHANGE, value);
     }
 
     @Override
-    public <K, V> void changeData(T item, IResourceData data) {
+    public void changeData(T item, IResourceData data) {
         this.data().set(data.all());
         this.onChange(item);
     }
 
+    @Override
+    public T getValue() {
+        return this.value;
+    }
+
+    protected void setValue(T value) {
+        this.value = value;
+    }
 }

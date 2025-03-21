@@ -13,9 +13,9 @@ import java.util.Date;
  *
  * @author jvidal
  */
-public abstract class LoadableResource<T, A extends ILoadableResourceApi> extends Resource<T, A> implements ILoadableResource<T, A> {
-
-    private static final long serialVersionUID = -7282514489139022215L;
+public abstract class LoadableResource<T, A extends ILoadableResourceApi>
+        extends PropertyResource<T, A>
+        implements ILoadableResource<T, A> {
 
     public enum LoadableResourceEvents implements IResourceEvents {
         LOADING("loading"),
@@ -31,6 +31,8 @@ public abstract class LoadableResource<T, A extends ILoadableResourceApi> extend
             return this.value;
         }
     }
+
+    private static final long serialVersionUID = 5650544346961437168L;
 
     private Date loadStart;
     private Date loadEnd;
