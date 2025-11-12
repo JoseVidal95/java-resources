@@ -30,7 +30,7 @@ public abstract class ResourceEventEmitterImp<A extends ResourceApi, L extends R
         _listeners.remove(listener);
     }
 
-    protected <E extends ResourcesEvents> Iterable<L> listeners(E event) {
+    public <E extends ResourcesEvents> Iterable<L> listeners(E event) {
         return this.listeners.get(event.getName());
     }
 }

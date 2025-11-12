@@ -2,10 +2,7 @@ package com.equital.resources.impl;
 
 import com.equital.resources.events.DisposableResourceEvents;
 import com.equital.resources.events.TableResourceListener;
-import com.equital.resources.models.PropertyResource;
-import com.equital.resources.models.ResourceApi;
-import com.equital.resources.models.TableResource;
-import com.equital.resources.models.TableResourceApi;
+import com.equital.resources.models.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -15,13 +12,13 @@ import java.util.Map;
 public abstract class TableResourceImp<T, R extends PropertyResource<T, ?, ?>, I, L extends TableResourceListener<R, I, A>,
                                               A extends TableResourceApi<R, I>>
         extends CollectionResourceImp<T, R, I, L, A> implements TableResource<T, R, I, L, A> {
-    private final Map<I, R> table;
+    private final Map<I, R> table = new HashMap<>();
 
-    public TableResourceImp() {
-        super();
-        this.table = new HashMap<>();
+    public TableResourceImp(Resource<A, L> resource) {
+        super(resource);
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public void add(I id, T value) {
         R resource = this.getChild(value);

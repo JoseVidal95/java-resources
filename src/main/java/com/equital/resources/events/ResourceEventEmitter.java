@@ -6,4 +6,6 @@ public interface ResourceEventEmitter<A extends ResourceApi, L extends ResourceL
     <E extends ResourcesEvents> void suscribe(E event, L listener);
 
     <E extends ResourcesEvents> void unsuscribe(E event, L listener);
+
+    <E extends ResourcesEvents> Iterable<L> listeners(E event);
 }

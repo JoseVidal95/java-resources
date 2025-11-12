@@ -4,18 +4,23 @@ import com.equital.resources.events.CollectionResourceEvents;
 import com.equital.resources.events.ListResourceListener;
 import com.equital.resources.events.ResourceEvents;
 import com.equital.resources.models.ListResource;
+import com.equital.resources.models.Resource;
 import com.equital.resources.models.ResourceApi;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class ListResourceImp<T, L extends ListResourceListener<T, A>, A extends ResourceApi>
-        extends ResourceImp<L, A> implements ListResource<T, L, A> {
+public abstract class ListResourceImp<T, L extends ListResourceListener<T, A>, A extends ResourceApi>
+        extends ResourceDecorator<A, L> implements ListResource<T, L, A> {
     private final List<T> list = new ArrayList<>();
 
-    public ListResourceImp(Iterable<T> values) {
-        super();
+    public ListResourceImp(Resource<A, L> resource) {
+        super(resource);
+    }
+
+    public ListResourceImp(Resource<A, L> resource, Iterable<T> values) {
+        super(resource);
         values.forEach(this::add);
     }
 

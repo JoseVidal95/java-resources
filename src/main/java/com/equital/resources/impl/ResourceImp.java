@@ -6,9 +6,10 @@ import com.equital.resources.events.ResourcesEvents;
 import com.equital.resources.models.Resource;
 import com.equital.resources.models.ResourceApi;
 
-public abstract class ResourceImp<L extends ResourceListener<A>, A extends ResourceApi>
+public class ResourceImp<L extends ResourceListener<A>, A extends ResourceApi>
         extends ResourceEventEmitterImp<A, L>
         implements Resource<A, L> {
+
     private A api;
 
     @Override

@@ -5,6 +5,7 @@ import com.equital.resources.events.CollectionResourceListener;
 import com.equital.resources.models.CollectionResource;
 import com.equital.resources.models.CollectionResourceApi;
 import com.equital.resources.models.PropertyResource;
+import com.equital.resources.models.Resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -14,8 +15,8 @@ public abstract class CollectionResourceImp<T, R extends PropertyResource<T, ?, 
                                                    A extends CollectionResourceApi<R, I>>
         extends PropertyResourceImp<Iterable<I>, A, L> implements CollectionResource<T, R, I, L, A> {
 
-    public CollectionResourceImp() {
-        super(new ArrayList<>());
+    public CollectionResourceImp(Resource<A, L> resource) {
+        super(resource, new ArrayList<>());
     }
 
     @Override

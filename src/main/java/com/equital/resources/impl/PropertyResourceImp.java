@@ -3,15 +3,20 @@ package com.equital.resources.impl;
 import com.equital.resources.events.PropertyResourceListener;
 import com.equital.resources.events.ResourceEvents;
 import com.equital.resources.models.PropertyResource;
+import com.equital.resources.models.Resource;
 import com.equital.resources.models.ResourceApi;
 
 public abstract class PropertyResourceImp<T, A extends ResourceApi, L extends PropertyResourceListener<T, A>>
-        extends ResourceImp<L, A> implements PropertyResource<T, A, L> {
+        extends ResourceDecorator<A, L> implements PropertyResource<T, A, L> {
 
     private T value;
 
-    public PropertyResourceImp(T value) {
-        super();
+    public PropertyResourceImp(Resource<A, L> resource) {
+        super(resource);
+    }
+
+    public PropertyResourceImp(Resource<A, L> resource, T value) {
+        this(resource);
         this.set(value);
     }
 
