@@ -6,6 +6,7 @@ import com.equital.exceptions.NullResourceApiException;
 import com.equital.listeners.ResourceListener;
 import com.equital.models.Resource;
 import com.equital.models.ResourceApi;
+import com.equital.models.ResourceData;
 import com.sun.istack.NotNull;
 
 public abstract class ResourceImp<L extends ResourceListener<A>, A extends ResourceApi>
@@ -13,6 +14,7 @@ public abstract class ResourceImp<L extends ResourceListener<A>, A extends Resou
         implements Resource<A, L> {
 
     private A api;
+    private ResourceData<?> data;
 
     @Override
     public <E extends ResourcesEvents> void attach(E event, @NotNull L listener) {
@@ -31,6 +33,13 @@ public abstract class ResourceImp<L extends ResourceListener<A>, A extends Resou
         }
 
         return api;
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public <T> ResourceData<T> data() {
+        if (this.data == null) this.data = new ResourceDataImp<>();
+        return (ResourceData<T>) this.data;
     }
 
     protected void setApi(@NotNull A api) {

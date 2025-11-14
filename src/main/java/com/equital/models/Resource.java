@@ -11,4 +11,6 @@ public interface Resource<A extends ResourceApi, L extends ResourceListener<A>> 
 
     <E extends ResourcesEvents> void deattach(E event, L listener);
 
+    <T> ResourceData<T> data();
+
 }
