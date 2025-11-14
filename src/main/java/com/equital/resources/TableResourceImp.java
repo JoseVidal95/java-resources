@@ -6,6 +6,7 @@ import com.equital.models.PropertyResource;
 import com.equital.models.ResourceApi;
 import com.equital.models.TableResource;
 import com.equital.models.TableResourceApi;
+import com.sun.istack.NotNull;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,7 +21,7 @@ public abstract class TableResourceImp<T, R extends PropertyResource<T, ?, ?>, I
 
     @SuppressWarnings("unchecked")
     @Override
-    public void add(I id, T value) {
+    public void add(@NotNull I id, T value) {
         R resource = this.getChild(value);
         if (resource instanceof ResourceImp<?, ?>)
             ((ResourceImp<?, ResourceApi>) resource).setApi(this.api().create(id, resource));
@@ -33,12 +34,12 @@ public abstract class TableResourceImp<T, R extends PropertyResource<T, ?, ?>, I
     }
 
     @Override
-    public void add(Map<I, T> values) {
+    public void add(@NotNull Map<I, T> values) {
         values.forEach(this::add);
     }
 
     @Override
-    public R remove(I id) {
+    public R remove(@NotNull I id) {
         R resource = this.get(id);
 
         this.api().dispose(id, resource);
@@ -53,7 +54,7 @@ public abstract class TableResourceImp<T, R extends PropertyResource<T, ?, ?>, I
     }
 
     @Override
-    public Iterable<R> remove(Iterable<I> ids) {
+    public Iterable<R> remove(@NotNull Iterable<I> ids) {
         List<R> resources = new ArrayList<>();
         ids.forEach(id -> resources.add(this.remove(id)));
 
@@ -61,7 +62,7 @@ public abstract class TableResourceImp<T, R extends PropertyResource<T, ?, ?>, I
     }
 
     @Override
-    public void set(Map<I, T> values) {
+    public void set(@NotNull Map<I, T> values) {
         this.clear();
         this.add(values);
     }
@@ -104,7 +105,7 @@ public abstract class TableResourceImp<T, R extends PropertyResource<T, ?, ?>, I
     }
 
     @Override
-    public boolean has(I id) {
+    public boolean has(@NotNull I id) {
         return this.table.containsKey(id);
     }
 

@@ -5,6 +5,7 @@ import com.equital.listeners.CollectionResourceListener;
 import com.equital.models.CollectionResource;
 import com.equital.models.CollectionResourceApi;
 import com.equital.models.PropertyResource;
+import com.sun.istack.NotNull;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -34,12 +35,12 @@ public abstract class CollectionResourceImp<T, R extends PropertyResource<T, ?, 
         return count;
     }
 
-    protected void add(I id) {
+    protected void add(@NotNull I id) {
         List<I> ids = (List<I>) this.get();
         ids.add(id);
     }
 
-    protected void removeId(I id) {
+    protected void removeId(@NotNull I id) {
         List<I> ids = (List<I>) this.get();
         ids.remove(id);
     }

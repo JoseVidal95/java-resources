@@ -6,6 +6,7 @@ import com.equital.exceptions.NullResourceApiException;
 import com.equital.listeners.ResourceListener;
 import com.equital.models.Resource;
 import com.equital.models.ResourceApi;
+import com.sun.istack.NotNull;
 
 public abstract class ResourceImp<L extends ResourceListener<A>, A extends ResourceApi>
         extends ResourceEventEmitterImp<L>
@@ -14,12 +15,12 @@ public abstract class ResourceImp<L extends ResourceListener<A>, A extends Resou
     private A api;
 
     @Override
-    public <E extends ResourcesEvents> void attach(E event, L listener) {
+    public <E extends ResourcesEvents> void attach(E event, @NotNull L listener) {
         this.suscribe(event, listener);
     }
 
     @Override
-    public <E extends ResourcesEvents> void deattach(E event, L listener) {
+    public <E extends ResourcesEvents> void deattach(E event, @NotNull L listener) {
         this.unsuscribe(event, listener);
     }
 
@@ -32,7 +33,7 @@ public abstract class ResourceImp<L extends ResourceListener<A>, A extends Resou
         return api;
     }
 
-    protected void setApi(A api) {
+    protected void setApi(@NotNull A api) {
         this.api = api;
     }
 }

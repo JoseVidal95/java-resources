@@ -4,13 +4,14 @@ import com.equital.events.ResourceEvents;
 import com.equital.listeners.PropertyResourceListener;
 import com.equital.models.PropertyResource;
 import com.equital.models.ResourceApi;
+import com.sun.istack.Nullable;
 
 public class PropertyResourceImp<T, A extends ResourceApi, L extends PropertyResourceListener<T, A>>
         extends ResourceImp<L, A> implements PropertyResource<T, A, L> {
 
     private T value;
 
-    public PropertyResourceImp(T value) {
+    public PropertyResourceImp(@Nullable T value) {
         this.set(value);
     }
 
@@ -20,7 +21,7 @@ public class PropertyResourceImp<T, A extends ResourceApi, L extends PropertyRes
     }
 
     @Override
-    public void set(T value) {
+    public void set(@Nullable T value) {
         this.value = value;
         this.onChange();
     }

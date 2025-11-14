@@ -5,6 +5,8 @@ import com.equital.events.ResourceEvents;
 import com.equital.listeners.ListResourceListener;
 import com.equital.models.ListResource;
 import com.equital.models.ResourceApi;
+import com.sun.istack.NotNull;
+import com.sun.istack.Nullable;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -15,7 +17,7 @@ public class ListResourceImp<T, L extends ListResourceListener<T, A>, A extends 
 
     private final List<T> list = new ArrayList<>();
 
-    public ListResourceImp(Iterable<T> values) {
+    public ListResourceImp(@NotNull Iterable<T> values) {
         super();
         values.forEach(this::add);
     }
@@ -26,13 +28,13 @@ public class ListResourceImp<T, L extends ListResourceListener<T, A>, A extends 
     }
 
     @Override
-    public void add(T value) {
+    public void add(@Nullable T value) {
         this.list.add(value);
         this.onAdd(Collections.singletonList(value));
     }
 
     @Override
-    public void add(Iterable<T> values) {
+    public void add(@NotNull Iterable<T> values) {
         values.forEach(this::add);
     }
 

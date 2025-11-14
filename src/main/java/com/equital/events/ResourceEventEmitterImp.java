@@ -1,6 +1,7 @@
 package com.equital.events;
 
 import com.equital.listeners.ResourceListener;
+import com.sun.istack.NotNull;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -13,7 +14,7 @@ public abstract class ResourceEventEmitterImp<L extends ResourceListener<?>>
     private final Map<String, List<L>> listeners = new HashMap<>();
 
     @Override
-    public <E extends ResourcesEvents> void suscribe(E event, L listener) {
+    public <E extends ResourcesEvents> void suscribe(E event, @NotNull L listener) {
         List<L> _listeners = this.listeners.computeIfAbsent(
                 event.getName(),
                 k -> new ArrayList<>()
@@ -23,7 +24,7 @@ public abstract class ResourceEventEmitterImp<L extends ResourceListener<?>>
     }
 
     @Override
-    public <E extends ResourcesEvents> void unsuscribe(E event, L listener) {
+    public <E extends ResourcesEvents> void unsuscribe(E event, @NotNull L listener) {
         List<L> _listeners = this.listeners.get(event.getName());
 
         if (_listeners == null) return;
